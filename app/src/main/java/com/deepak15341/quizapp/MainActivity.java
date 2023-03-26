@@ -1,8 +1,10 @@
 package com.deepak15341.quizapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -80,6 +82,19 @@ public class MainActivity extends AppCompatActivity {
             textViewQuestion.setText(mquizQuestion);
 
             //textViewQuizStats.setText((mQuestionindex+1)+"/"+questionsAll.length);
+        }
+        else if(mQuestionindex>=questionsAll.length){
+            AlertDialog.Builder quizAlert = new AlertDialog.Builder(this);
+            quizAlert.setCancelable(false);
+            quizAlert.setTitle("the Quiz has Finished");
+            quizAlert.setMessage("your score is : "+result);
+            quizAlert.setPositiveButton("Finish The Quiz", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+            quizAlert.show();
         }
 
     }
