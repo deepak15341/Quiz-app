@@ -1,5 +1,6 @@
 package com.deepak15341.quizapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -26,16 +27,27 @@ public class MainActivity extends AppCompatActivity {
             new QuizModel(R.string.q10,true)
     };
 
-    private int mQuestionindex,mquizQuestion,result=0;
+    private int mQuestionindex=0,mquizQuestion,result=0;
     final int USER_PROGRESS = (int) Math.ceil(100.0/questionsAll.length);
     private AppCompatButton buttonCorrect, buttonWrong;
     private TextView textViewQuestion,textViewQuizStats;
     private ProgressBar quizProgressBar;
+     private final String RESULT_KEY = "RESULT";
+     private final String INDEX_KEY = "INDEX";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(savedInstanceState!=null){
+            result = savedInstanceState.getInt(RESULT_KEY);
+            mQuestionindex = savedInstanceState.getInt(INDEX_KEY);
+
+        }
+        else{
+            mQuestionindex=0;
+            result=0;
+        }
 
 
         buttonCorrect = findViewById(R.id.correctButton);
@@ -45,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         quizProgressBar =findViewById(R.id.quizProgressBar);
 
         //get question for the first element
-        textViewQuestion.setText(questionsAll[mquizQuestion].getmQuestion());
+        textViewQuestion.setText(questionsAll[mQuestionindex].getmQuestion());
 
         // textViewQuizStats.setText((mQuestionindex+1)+"/"+questionsAll.length);
         textViewQuizStats.setText(result+"/"+10);
@@ -113,4 +125,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(RESULT_KEY,result);
+        outState.putInt(INDEX_KEY,mQuestionindex);
+    }
 }
